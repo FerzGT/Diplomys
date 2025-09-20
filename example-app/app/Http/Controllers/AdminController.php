@@ -4,19 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Hall;
 use App\Models\Movie;
-use App\Models\Place;
+use App\Models\Seat;
 use App\Models\Session;
 use App\Models\User;
-use App\Http\Controllers\Controller;
+use App\Http\Requests\MovieStoreRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Arr;
 
 class AdminController extends Controller
 {
     public function index()
     {
         $halls = Hall::with('seat')->get();
-        $place = Place::all();
+        $seats = Seat::all();
         $movies = Movie::query()->paginate(10);
         $seances = Session::with('movie')->get();
 
@@ -24,11 +25,11 @@ class AdminController extends Controller
             'halls' => $halls,
             'movies' => $movies,
             'seances' => $seances,
-            'place' => $place,
+            'seats' => $seats,
         ]);
     }
     
-    public function addMovie(MovieStoreRequest $request): RedirectResponse
+    public function addMovie(Movie $request): RedirectResponse
     {
         $validated = $request->validated();
         Movie::create([

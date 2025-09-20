@@ -26,6 +26,12 @@ body {
   background-attachment: fixed;
   counter-reset: num; }
 
+.alert {
+  font-size: 2.5em;
+  margin: 20px;
+  color: red;
+}
+
 input[type='radio'], input[type='submit'], button, .conf-step__header, select {
   cursor: pointer; }
 
@@ -417,7 +423,6 @@ input[type='radio'], input[type='submit'], button, .conf-step__header, select {
     color: rgba(0, 0, 0, 0.7); }
 
 .conf-step__seances-hall {
-  position: relative;
   margin: 35px; }
 
 .conf-step__seances-title {
@@ -526,60 +531,11 @@ input[type='radio'], input[type='submit'], button, .conf-step__header, select {
         transform: scale(1.2);
         transition: .3s all ease; }
 
-/*==================================*/
-        
-.conf-step__wrapper__save-status {
-  padding-top: 10px;
-  font-size: 15px;
-  font-weight: 700;
-  color: #008000;
-}
-
-.conf-step__button:disabled {
-  background-color: #888888;
-}
-
-textarea.conf-step__input {
-  min-height: 80px;
-  max-height: 80px;
-  min-width: 100%;
-  max-width: 100%; 
-}
-
-.conf-step__movie > a {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-}
-
-.popup__poster {
-  height: 200px;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-}
-
-.popup__container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.popup__form {
-  width: 100%;
-}
-
-
-.trash-seance{
-  width: 40px;
-  height: 40px;
-  position: absolute;
-  left: -50px;
-  top: 25px;
-  display: none;
-}
-
-.explanation-text {
-  font-size: 14px;
-  color: #ff0000;
-  font-weight: 600;
-}
 /*# sourceMappingURL=styles.css.map */
+
+.block {
+  display: block;
+  background-color: white;
+  height: 200px;
+  width: 500px;
+}

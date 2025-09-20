@@ -6,6 +6,8 @@ use App\Models\Movie;
 use App\Models\Hall;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 
 class Session extends Model
 {
@@ -20,11 +22,11 @@ class Session extends Model
 
     public function movie(): BelongsTo
     {
-        return $this->belongsTo(Movie::class);
+         return $this->belongsTo(Movie::class);
     }
 
     public function hall(): BelongsTo
     {
-        return $this->belongsTo(Hall::class);
+         return $this->belongsTo(Hall::class);
     }
 }

@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers;
 
-
+use Illuminate\Http\Request;
 use App\Models\Hall;
 use App\Models\Movie;
 use App\Models\Session;
-use App\Models\Place;
-
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Seat;
 
 class ClientController extends Controller
 {
-     public function index()
+    public function index()
     {
         $halls = Hall::query()->where(['is_open' => true])->get();
         $movies = Movie::with('sessions')->get();
@@ -29,9 +26,9 @@ class ClientController extends Controller
     public function hall(int $id)
     {
         $seance = Session::with(['movie','hall'])->get()->findOrFail($id);
-        $Place = Place::query()->where(['hall_id' => $seance->hall_id])->get();
+        $seats = Seat::query()->where(['hall_id' => $seance->hall_id])->get();
 
-        return view('client.hall', ['seance' => $seance, 'seats'=> $Place]);
+        return view('client.hall', ['seance' => $seance, 'seats'=> $seats]);
     }
 
     public function payment(Request $request, int $id)
@@ -47,4 +44,5 @@ class ClientController extends Controller
 
         return view('client.ticket', ['seance' => $seance]);
     }
+    
 }

@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Hall;
-use App\Models\Place;
-use App\Models\Session;
-use Illuminate\Http\JsonResponse;
 
-use App\Http\Controllers\Controller;
+use App\Models\Hall;
+use App\Models\Seat;
+use App\Models\Session;
+use Illuminate\Http\HallStoreRequest;
 use Illuminate\Http\Request;
 
 class HallController extends Controller
 {
-   public function create(HallStoreRequest $request)  //: RedirectResponse
+    public function create(Hall $request)  //: RedirectResponse
     {
         $validated = $request->validated();
         $hall = Hall::query()->create([
@@ -20,9 +19,9 @@ class HallController extends Controller
         ]);
         
         for ($i = 0; $i < 6; $i++) {
-            Place::query()->create([
+            Seat::query()->create([
                 'hall_id' => $hall->id,
-                'type_Place' => 'st',
+                'type_seat' => 'st',
             ]);
         }
 
@@ -37,7 +36,7 @@ class HallController extends Controller
                 Session::destroy($session->id);
             }
         }
-        Place::query()->where(['hall_id' => $id])->delete();
+        Seat::query()->where(['hall_id' => $id])->delete();
         Hall::destroy($id);
 
         return redirect('admin/index');
@@ -53,12 +52,12 @@ class HallController extends Controller
 
     public function updateSeats(Request $request, int $id)
     {
-        Place::query()->where(['hall_id' => $id])->delete();
+        Seat::query()->where(['hall_id' => $id])->delete();
         $newSeats = $request->json();
         foreach ($newSeats as $newSeat) {
-            Place::query()->create($newSeat);
+            Seat::query()->create($newSeat);
         }
-        $seats = Place::all();
+        $seats = Seat::all();
         
         return response()->json($seats);
     }

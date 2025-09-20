@@ -8,6 +8,8 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     * $table->integer('session_id');
+     * $table->integer('movid_id');
      */
     public function up(): void
     {
@@ -15,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('name')->default('New hall');
             $table->unsignedInteger('rows')->default(2);
-            $table->unsegnedInteger('cols')->default(3);
-            $table->unsegnedInteger('price')->default(100);
-            $table->unsegnedInteger('price_vip')->default(200);
+            $table->unsignedInteger('cols')->default(3);
+            $table->unsignedInteger('price')->default(100);
+            $table->unsignedInteger('price_vip')->default(200);
             $table->boolean('is_open')->default(false);
         });
     }

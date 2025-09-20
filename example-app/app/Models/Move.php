@@ -6,7 +6,7 @@ use App\Models\Session;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Move extends Model
+class Movie extends Model
 {
     use HasFactory;
     
