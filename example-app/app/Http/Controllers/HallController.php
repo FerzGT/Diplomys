@@ -2,63 +2,52 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Hall;
-use App\Models\Seat;
-use App\Models\Session;
-use Illuminate\Http\HallStoreRequest;
 use Illuminate\Http\Request;
+
+/**
+ * контроллер с функцикй createHall для создания записи нового зала в таблице halls базы данных и функцией showAllHalls отобаржения всех залов
+ */
 
 class HallController extends Controller
 {
-    public function create(Hall $request)  //: RedirectResponse
+    public function createHall(Request $request)
     {
-        $validated = $request->validated();
-        $hall = Hall::query()->create([
-            'name' => $validated['name']
-        ]);
-        
-        for ($i = 0; $i < 6; $i++) {
-            Seat::query()->create([
-                'hall_id' => $hall->id,
-                'type_seat' => 'st',
-            ]);
-        }
+        //Автоматически генерируем часть имени нового зала
+        $lastHall = Hall::orderBy('id', 'desc')->first();  //сортируем все залы в таблице и берем последний созданный
+        $hallNumber = $lastHall ? $lastHall->id + 1 : 1;  //если последний зал существует, то просто прибавляем к id 1 это будет номер нового зала
 
-        return redirect()->back();
-    }
-
-    public function delete(int $id) //: RedirectResponse
-    {
-        $sessions = Session::all();
-        foreach ($sessions as $session) {
-            if ($session->hall_id === $id) {
-                Session::destroy($session->id);
-            }
-        }
-        Seat::query()->where(['hall_id' => $id])->delete();
-        Hall::destroy($id);
-
-        return redirect('admin/index');
-    }
-
-    public function update(Request $request, Hall $hall)
-    {
-        $hall->fill($request->all());
+        //Создаем новый зал
+        $hall = new Hall();
+        $hall->name = "Зал $hallNumber";
         $hall->save();
 
-        return response()->json($hall);
+        return redirect()->back()->with('success', 'Зал создан:' . $hall->name);
+
     }
 
-    public function updateSeats(Request $request, int $id)
+    //метод получения всех залов и передачи их на страницу администрирования зало
+    public function showAllHalls()
     {
-        Seat::query()->where(['hall_id' => $id])->delete();
-        $newSeats = $request->json();
-        foreach ($newSeats as $newSeat) {
-            Seat::query()->create($newSeat);
-        }
-        $seats = Seat::all();
-        
-        return response()->json($seats);
+        $halls = Hall::all();  //получаем все записи из таблицы halls
+
+        return view('admin.index', compact('halls'));
+    }
+
+    //метод получения всех залов и передачи их на страницу администрирования зало
+    public function showAllHallss()
+    {
+        $halls = Hall::all();  //получаем все записи из таблицы halls
+
+        return response()->json($halls);
+        // return view('admin.index', compact('halls'));
+    }
+
+    public function destroy(Hall $hall)
+    {
+        $hall->delete();
+
+        // return redirect()->back()->with('success', 'Зал успешно удалён.');
+        return response()->json(['message' => 'Зал успешно удалён'], 200);
     }
 }

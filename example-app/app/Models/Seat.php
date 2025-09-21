@@ -2,21 +2,17 @@
 
 namespace App\Models;
 
-use App\Models\Hall;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Seat extends Model
 {
-    use HasFactory;
-
-    protected $fillable = ['hall_id', 'type_seat'];
-
-    public $timestamps = false;
-
-    public function hall(): BelongsTo
+    /**
+     * Значит каждая запись в таблице мест связана с одной записью в таблице залов
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Hall, Seat>
+     */
+    public function hall()
     {
         return $this->belongsTo(Hall::class);
-    }
+    } 
+
 }

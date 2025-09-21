@@ -2,33 +2,27 @@
 
 namespace App\Models;
 
-use App\Models\Session;
-use App\Models\Place;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+/**
+ * Можедль создания экзапляра нового зала
+ */
 class Hall extends Model
 {
-     use HasFactory;
+   // protected $table = 'halls'; это делается автоматически поэтому не надо лишний раз писать т.к. имя таблицы не отличается стандартного
 
-    public $timestamps = false;
-    protected $fillable = [
-        'name',
-        'rows',
-        'cols',
-        'place',
-        'price',
-        'price_vip',
-        'is_open',
-    ];
+   /**
+    * Запись один ко многим значит одна одна запись зала может иметь много связанных записей мест
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany<Seat, Hall>
+    */
+   public function seats()
+   {
+      return $this->hasMany(Seat::class);
+   }
 
-    public function sessions()
-    {
-        return $this->hasMany(Session::class);
-    }
+   public function sessions()
+   {
+      return $this->hasMany(Session::class); // один зал может иметь несколько сеансов
+   }
 
-    public function seat()
-    {
-        return $this->hasMany(Place::class);
-    }
 }
